@@ -1,0 +1,30 @@
+version: "1"
+
+package:
+  id: io.github.Skymake
+  name: Skymake
+  version: 1.1.0.1
+  kind: app
+  description: |
+    A simple Skylander file (*.sky) generator.
+
+command:
+  - /opt/apps/io.github.Skymake/files/bin/skymake
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/rosey-complex/Skymake.git
+    version: master
+    commit: 260543b35f074bd91d95f59b234bcd912b77fd58
+
+build: |
+  cd /project/linglong/sources/Skymake.git
+  git apply ../../../0001-install.patch
+  mkdir build
+  cd build
+  cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  cmake --build . --target install -j$(nproc --all)
